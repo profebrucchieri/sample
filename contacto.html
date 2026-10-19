@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - AutoMaster</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Auto<span>Master</span></div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="catalogo.html">Catálogo</a>
+            <a href="contacto.html" class="active">Contacto</a>
+        </nav>
+    </header>
+
+    <main class="container page-content">
+        <div class="contact-header">
+            <h2>Ponete en contacto con nosotros</h2>
+            <p>Atención personalizada para la compra, venta o permuta de tu vehículo.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Información de Contacto & Ubicación -->
+            <div class="contact-info">
+                <div class="info-item">
+                    <h3>📍 Salón de Ventas</h3>
+                    <p>Av. Principal 1234, San Justo, Buenos Aires</p>
+                </div>
+                <div class="info-item">
+                    <h3>📞 Teléfonos</h3>
+                    <p>Ventas: (011) 4444-5555</p>
+                    <p>WhatsApp: +54 9 11 2233-4455</p>
+                </div>
+                <div class="info-item">
+                    <h3>⏰ Horarios de Atención</h3>
+                    <p>Lunes a Viernes: 09:00 a 19:00 hs</p>
+                    <p>Sábados: 09:00 a 13:00 hs</p>
+                </div>
+                <!-- Mapa / Imagen de Ubicación -->
+                <div class="map-box">
+                    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=600&q=80" alt="Ubicación Concesionario">
+                </div>
+            </div>
+
+            <!-- Formulario de Consulta -->
+            <div class="contact-form-box">
+                <form class="contact-form" action="#" method="POST">
+                    <h3>Enviar una consulta</h3>
+                    
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+
+                    <label for="telefono">Teléfono / WhatsApp</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="11 1234 5678">
+
+                    <label for="interes">Motivo de Consulta</label>
+                    <select id="interes" name="interes">
+                        <option value="comprar">Comprar un vehículo</option>
+                        <option value="vender">Vender / Tasar mi auto</option>
+                        <option value="financiacion">Consultar por Financiación</option>
+                        <option value="otro">Otro motivo</option>
+                    </select>
+
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribí acá tu mensaje o consulta por un vehículo específico..." required></textarea>
+
+                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AutoMaster. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
