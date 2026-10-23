@@ -7,6 +7,7 @@ terraform {
 
 provider "docker" {}
 
+# 1. Contenedor Floci (Mock de S3)
 resource "docker_image" "floci" {
   name = "floci/floci:latest"
 }
@@ -20,6 +21,7 @@ resource "docker_container" "floci" {
   }
 }
 
+# 2. Proveedor AWS apuntando a Floci
 provider "aws" {
   region                      = "us-east-1"
   access_key                  = "mock"
@@ -28,9 +30,12 @@ provider "aws" {
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
   s3_use_path_style           = true
-  endpoints { s3 = "http://localhost:4566" }
+  endpoints {
+    s3 = "http://localhost:4566"
+  }
 }
 
+# 3. Bucket S3 en Floci
 resource "aws_s3_bucket" "b" {
   bucket     = "automaster"
   depends_on = [docker_container.floci]
@@ -41,6 +46,7 @@ resource "aws_s3_bucket_acl" "b_acl" {
   acl    = "public-read"
 }
 
+# 4. Subida de archivos estáticos
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.b.id
   key          = "index.html"
@@ -67,48 +73,13 @@ resource "aws_s3_object" "contacto" {
 
 resource "aws_s3_object" "style" {
   bucket       = aws_s3_bucket.b.id
-key    = "css/style.css"
-source = "${path.module}/css/style.css"
+  key          = "css/style.css"
+  source       = "${path.module}/css/style.css"
   content_type = "text/css"
   acl          = "public-read"
 }
 
-resource "local_file" "nginx_conf" {
-  filename = "${path.module}/default.conf"
-  content  = <<EOF
-server {
-    listen 80;
-    location / {
-        proxy_pass http://host.docker.internal:4566/automaster/;
-        proxy_set_header Host localhost;
-    }
-}
-EOF
-}
-
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
-}
-
-resource "docker_container" "nginx" {
-  name  = "automaster-nginx"
-  image = docker_image.nginx.image_id
-  ports {
-    internal = 80
-    external = 8080
-  }
-  volumes {
-    container_path = "/etc/nginx/conf.d/default.conf"
-    host_path      = abspath(local_file.nginx_conf.filename)
-    read_only      = true
-  }
-  depends_on = [aws_s3_bucket.b, local_file.nginx_conf]
-}
-
+# Output para ver el sitio directo
 output "website_url" {
-  value = "http://localhost:8080"
-}
-
-output "s3_direct_url" {
   value = "http://localhost:4566/automaster/index.html"
 }
